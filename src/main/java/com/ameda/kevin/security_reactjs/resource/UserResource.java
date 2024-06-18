@@ -52,6 +52,10 @@ public class UserResource {
                         OK));
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<Response> test(){
+        return ResponseEntity.ok().build();
+    }
 
     private URI getUri() {
         return URI.create("");
