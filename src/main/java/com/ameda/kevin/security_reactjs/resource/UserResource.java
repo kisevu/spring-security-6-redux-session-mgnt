@@ -13,10 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -24,6 +21,7 @@ import java.net.URI;
 import static com.ameda.kevin.security_reactjs.utils.RequestUtils.getResponse;
 import static java.util.Collections.emptyMap;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -42,6 +40,16 @@ public class UserResource {
                 .body(getResponse(servletRequest,emptyMap(),
                         "Account created. Check your email to enable account",
                         CREATED));
+    }
+
+    @GetMapping("/verify/account")
+    public ResponseEntity<Response> verifyUser(@RequestParam String token,
+                                             HttpServletRequest servletRequest){
+        userService.verifyAccountToken(token);
+        return ResponseEntity.ok()
+                .body(getResponse(servletRequest,emptyMap(),
+                        "Account verified successfully",
+                        OK));
     }
 
 

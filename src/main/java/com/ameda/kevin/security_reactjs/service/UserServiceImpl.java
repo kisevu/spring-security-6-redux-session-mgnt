@@ -57,6 +57,29 @@ private final ApplicationEventPublisher publisher;
         return role.orElseThrow(()->new APIException("role not found"));
     }
 
+    @Override
+    public void verifyAccountToken(String token) {
+        var confirmationEntity = getUserConfirmation(token);
+        UserEntity userEntity = getUserEntityByEmail(confirmationEntity.getUserEntity().getEmail());
+        userEntity.setEnabled(true); // enabling /active user account
+        userRepository.save(userEntity);
+        confirmationRepository.delete(confirmationEntity);
+    }
+
+    private UserEntity getUserEntityByEmail(String email) {
+        var userByEmail = userRepository.findByEmailIgnoreCase(email);
+        return userByEmail
+                .orElseThrow(
+                        ()->new APIException("user with passed email could be found."));
+    }
+
+    private  ConfirmationEntity getUserConfirmation(String token) {
+        return confirmationRepository.findByKey(token)
+                .orElseThrow(
+                        ()->new APIException("Confirmation entity with passed token or key  could not be found.")
+                );
+    }
+
 
     private UserEntity createNewUser(String firstName,String lastName,String email){
         var role = getRoleName(Authority.USER.name());

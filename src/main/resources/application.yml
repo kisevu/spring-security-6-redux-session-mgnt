@@ -53,7 +53,7 @@ spring:
   mail:
     host: ${EMAIL_HOST}
     port: ${EMAIL_PORT}
-    username: ${EMAIL_USERNAME}
+    username: ${EMAIL_ID}
     password: ${EMAIL_PASSWORD}
     default-encoding: UTF-8
     properties:
