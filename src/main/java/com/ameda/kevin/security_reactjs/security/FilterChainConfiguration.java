@@ -17,6 +17,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -53,7 +54,10 @@ public class FilterChainConfiguration {
 
     /*
     * overriding the provider
-    *
+    * Here is where the comparison between the passed credentials
+    * and the stored ones is happening.
+    * Beautifully unfolding
+    * DaoAuthenticationProvider is where the magic is happening
     * */
 
     @Bean
@@ -74,8 +78,9 @@ public class FilterChainConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req->
-                        req.requestMatchers("/user/test").permitAll()
+                        req.requestMatchers("/user/login").permitAll()
                                 .anyRequest().authenticated()).build();
     }
 }

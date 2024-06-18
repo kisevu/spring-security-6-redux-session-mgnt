@@ -13,9 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Map;
 
 
 import static com.ameda.kevin.security_reactjs.utils.RequestUtils.getResponse;
@@ -28,6 +32,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 public class UserResource {
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity<Response> saveUser(@RequestBody @Valid UserRequest userRequest,
@@ -52,9 +57,16 @@ public class UserResource {
                         OK));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Response> test(){
-        return ResponseEntity.ok().build();
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserRequest userRequest){
+        UsernamePasswordAuthenticationToken unauthenticated = UsernamePasswordAuthenticationToken
+                .unauthenticated(userRequest.getEmail(), userRequest.getPassword());
+        // unauthenticated returns authenticated as false and has no authorities
+        //authenticated has authorities and authenticated is true
+        //those are plain differences between them
+        Authentication authenticated = authenticationManager.authenticate(unauthenticated);
+        return ResponseEntity.ok()
+                .body(Map.of("user",authenticated));
     }
 
     private URI getUri() {
