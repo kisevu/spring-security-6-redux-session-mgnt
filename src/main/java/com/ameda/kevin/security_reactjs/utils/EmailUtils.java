@@ -1,4 +1,5 @@
-package com.ameda.kevin.security_reactjs.utils;/*
+package com.ameda.kevin.security_reactjs.utils;
+/*
 *
 @author ameda
 @project security-reactjs
