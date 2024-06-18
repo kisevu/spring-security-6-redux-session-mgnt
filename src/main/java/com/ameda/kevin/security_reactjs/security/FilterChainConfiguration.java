@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,8 +21,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -36,20 +33,28 @@ public class FilterChainConfiguration {
     * */
 
 
-    @Bean
-    public UserDetailsService userDetailsService(){
-        var user1 = User.withDefaultPasswordEncoder()
-                .username("kevin")
-                .password("ameda")
-                .roles("USER")
-                .build();
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//        var user1 = User.withDefaultPasswordEncoder()
+//                .username("kevin")
+//                .password("{noop}ameda")
+//                .roles("USER")
+//                .build();
+//
+//        var user2 = User.withDefaultPasswordEncoder()
+//                .username("judy")
+//                .password("{noop}mongare")
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(List.of(user1,user2));
+//    }
 
-        var user2 = User.withDefaultPasswordEncoder()
-                .username("judy")
-                .password("mongare")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(List.of(user1,user2));
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+        return new InMemoryUserDetailsManager(
+                User.withUsername("kevin").password("ameda").roles("USER").build(),
+                User.withUsername("judy").password("mongare").roles("USER").build()
+        );
     }
 
     /*
@@ -62,9 +67,8 @@ public class FilterChainConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        return new ProviderManager(provider);
+        OwnAuthenticationProvider ownProvider = new OwnAuthenticationProvider(userDetailsService);
+        return new ProviderManager(ownProvider);
     }
 
     /*
