@@ -1,8 +1,14 @@
 package com.ameda.kevin.security_reactjs;
 
 
+import com.ameda.kevin.security_reactjs.domain.RequestContext;
+import com.ameda.kevin.security_reactjs.entity.RoleEntity;
+import com.ameda.kevin.security_reactjs.enumeration.Authority;
+import com.ameda.kevin.security_reactjs.repository.RoleRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -14,9 +20,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-//	@Bean
-//	public CommandLineRunner commandLineRunner(RoleRepository roleRepository){
-//		return args -> {
+	@Bean
+	public CommandLineRunner commandLineRunner(RoleRepository roleRepository){
+		return args -> {
 //			RequestContext.setUserId(0L);
 //			var userRole = new RoleEntity();
 //			userRole.setName(Authority.USER.name());
@@ -28,6 +34,6 @@ public class Application {
 //			adminRole.setAuthorities(Authority.ADMIN);
 //			roleRepository.save(adminRole);
 //			RequestContext.start();
-//		};
-//	}
+		};
+	}
 }

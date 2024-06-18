@@ -13,7 +13,7 @@ services:
       - 5489:5432
     networks:
       - security-network
-    restart: unless-stopped
+    restart: always
 
   pgadmin:
     container_name: postgres-security-GUI
@@ -30,7 +30,7 @@ services:
       - 5050:80
     networks:
       - security-network
-    restart: unless-stopped
+    restart: always
 
 networks:
   security-network:

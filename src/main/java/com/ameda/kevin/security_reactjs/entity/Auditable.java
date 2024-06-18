@@ -46,10 +46,11 @@ public abstract class Auditable {
 
     @PrePersist
     public void  beforePersist(){
-        var userId = RequestContext.getUserId();
-        if(userId == null){
-            throw new APIException("cannot persist without user Id in request context.");
-        }
+        var userId = 0L;
+//                RequestContext.getUserId();
+//        if(userId == null){
+//            throw new APIException("cannot persist without user Id in request context.");
+//        }
         setCreatedAt(LocalDateTime.now());
         setCreatedBy(userId);
         setUpdatedBy(userId);
@@ -58,10 +59,11 @@ public abstract class Auditable {
 
     @PreUpdate
     public void  beforeUpdate(){
-        var userId = RequestContext.getUserId();
-        if(userId == null){
-            throw new APIException("cannot update without user Id in request context.");
-        }
+        var userId = 0L;
+//                RequestContext.getUserId();
+//        if(userId == null){
+//            throw new APIException("cannot update without user Id in request context.");
+//        }
         setUpdatedAt(LocalDateTime.now());
         setUpdatedBy(userId);
     }

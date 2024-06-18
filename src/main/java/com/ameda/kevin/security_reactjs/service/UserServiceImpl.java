@@ -21,8 +21,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -38,14 +36,14 @@ private final UserRepository userRepository;
 private final RoleRepository roleRepository;
 private final CredentialRepository credentialRepository;
 private final ConfirmationRepository confirmationRepository;
-private final PasswordEncoder passwordEncoder;
+//private final PasswordEncoder bCryptPasswordEncoder;
 private final ApplicationEventPublisher publisher;
 
     @Override
     public void createUser(String firstName, String lastName, String email, String password) {
        var userEntity = userRepository.save(createNewUser(firstName,lastName,email));
         CredentialEntity credentialEntity = new CredentialEntity(userEntity,
-                passwordEncoder.encode(password));
+                password);
         credentialRepository.save(credentialEntity);
         var confirmationEntity = new ConfirmationEntity(userEntity);
         confirmationRepository.save(confirmationEntity);

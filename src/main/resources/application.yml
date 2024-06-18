@@ -39,7 +39,7 @@ spring:
 
   sql:
     init:
-      mode: always
+      mode: never
       continue-on-error: false
       schema-locations: classpath:/data/schema.sql
       data-locations: classpath:/data/data.sql
@@ -53,8 +53,8 @@ spring:
   mail:
     host: ${EMAIL_HOST}
     port: ${EMAIL_PORT}
-    username: ${USERNAME}
-    password: ${PASSWORD}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
     default-encoding: UTF-8
     properties:
       mail:
@@ -73,7 +73,7 @@ spring:
       host: ${VERIFY_EMAIL_HOST}
 
 server:
-  port: ${CONTAINER_PORT:8082}
+  port: ${CONTAINER_PORT}
   error:
     path: /user/error
     whitelabel:
