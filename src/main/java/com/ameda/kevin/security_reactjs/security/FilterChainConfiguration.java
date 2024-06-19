@@ -49,13 +49,13 @@ public class FilterChainConfiguration {
 //        return new InMemoryUserDetailsManager(List.of(user1,user2));
 //    }
 
-    @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
-        return new InMemoryUserDetailsManager(
-                User.withUsername("kevin").password("ameda").roles("USER").build(),
-                User.withUsername("judy").password("mongare").roles("USER").build()
-        );
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+//        return new InMemoryUserDetailsManager(
+//                User.withUsername("kevin").password("ameda").roles("USER").build(),
+//                User.withUsername("judy").password("mongare").roles("USER").build()
+//        );
+//    }
 
     /*
     * overriding the provider
@@ -65,11 +65,11 @@ public class FilterChainConfiguration {
     * DaoAuthenticationProvider is where the magic is happening
     * */
 
-    @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
-        OwnAuthenticationProvider ownProvider = new OwnAuthenticationProvider(userDetailsService);
-        return new ProviderManager(ownProvider);
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
+//        APIAuthenticationProvider ownProvider = new APIAuthenticationProvider(userDetailsService);
+//        return new ProviderManager(ownProvider);
+//    }
 
     /*
     * What need's be done now is providing a way to bypass our endpoints because
@@ -79,12 +79,12 @@ public class FilterChainConfiguration {
     *
     * */
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req->
-                        req.requestMatchers("/user/login").permitAll()
-                                .anyRequest().authenticated()).build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(req->
+//                        req.requestMatchers("/user/login").permitAll()
+//                                .anyRequest().authenticated()).build();
+//    }
 }

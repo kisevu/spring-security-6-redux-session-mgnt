@@ -1,4 +1,4 @@
-package com.ameda.kevin.security_reactjs.service;/*
+package com.ameda.kevin.security_reactjs.service.impl;/*
 *
 @author ameda
 @project security-reactjs
@@ -6,6 +6,7 @@ package com.ameda.kevin.security_reactjs.service;/*
 */
 
 import com.ameda.kevin.security_reactjs.exceptions.APIException;
+import com.ameda.kevin.security_reactjs.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ import static com.ameda.kevin.security_reactjs.utils.EmailUtils.getResetPassword
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
     private static final String NEW_USER_ACCOUNT_VERIFICATION = "New user account verification";
     private static final String PASSWORD_RESET_REQUEST = "Password reset request";
     private final JavaMailSender mailSender;
